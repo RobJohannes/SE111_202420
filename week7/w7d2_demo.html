@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>W7D2 | Javascript Demo</title>
+</head>
+<body>
+
+    <h1>W7D2 - Javascript Selector & Event Demo</h1>
+
+    <form style="border:1px solid blue;">
+
+        <table>
+
+            <tr>
+                <!--left side: questions-->
+                <td>
+                    <label for="first" class="questions">FIRST: </label>
+                </td>
+
+                <!--right side: input values-->
+                <td>
+                    <input type="text" name="first" id="first">
+
+                </td>
+            </tr>
+
+            <tr>
+                <!--left side: questions-->
+                <td>
+                    <label for="last" class="questions">LAST: </label>
+                </td>
+
+                <!--right side: input values-->
+                <td>
+                    <input type="text" name="last" id="last">
+
+                </td>
+            </tr>
+
+            <tr>
+                <!--left side: questions-->
+                <td>
+                    <label for="age" class="questions">AGE: </label>
+                </td>
+
+                <!--right side: input values-->
+                <td>
+                    <input type="text" name="age" id="age">
+
+                </td>
+            </tr>
+
+            
+            <tr>
+                <!--left side: questions-->
+                
+                <td>
+                    <br>
+                    <br>
+                   <input type="button" id="enter-button" value="ENTER">
+                </td>
+
+                <!--right side: input values-->
+                <td>
+                    
+
+                </td>
+            </tr>
+
+        </table>
+
+    </form>
+
+    <br>
+    <br>
+
+    <!--a div to hold some info from the form-->
+
+    <h2 id="hello">Hello</h2>
+
+    <div id="info" style="border:1px solid black; width:500px; height:200px;">
+    
+    </div><!--# info-->
+
+    <br>
+    <br>
+    <br>
+
+    <!--not just buttons can have click events!-->
+
+    <p id="me">
+        Click!
+    </p>
+
+    <p id="you">
+        Click!
+    </p>
+
+    <input type="button" id="submit" value="COOL STUFF!">
+
+    <br><br><br><br><br>
+    <p>end</p>
+    <!--IN-DOCUMENT JAVASCRIPT BELOW-->
+    <script>
+
+        //we write JS in here :]
+
+        //HTML ELEMENT SELECTION in JS---------------------------------------------------------------------------------------------------
+        
+        //SELECTIONS in JS - selecting in JS works similar to the in-class CSS you have seen thus far - by "selecting" an element or set of elements, we can modify said element
+        //In this demo, we select HTML elements one of two ways: by TAG NAME or by ID NAME
+        
+        //using JS, select the body element from the file and store it in the Javascript under the name 'body'
+        var body = document.querySelector(`body`) //specify the element you wish to select
+        //.querySelector() requires the document object as it is a method associated with document; the document is the current HTML file
+        //.querySelector() will search the document and select the element we provide as an argument value: .querySelector(argument)
+        //.quertySelector() will return the entire element we request, including it's open tag, attributes, any interior content (both HTML and text/content), as well as the close tag
+
+        //to see what that actually means, we log the body to view its value 
+        console.log(body)
+
+        //HTML ATTRIBUTES in JS----------------------------------------------------------------------------------------------------------
+        
+        //once an HTML element has been stored to our JS, we can now inherently access ALL of its attributes (properties)
+        //common attributes: id, name, class, value, src, type, href ...
+        //since we can access the attributes and their values, we can also now modify them!
+        
+        //we can access the attribute values because 'body' in our JS isn't a usual variable, it's an OBJECT! 
+        //using object notation ("dot syntax"); once an element is stored, we can simply state: elementName.attributeName to access a specific attribute value of a specific element
+        //when reading dot syntax, read and interpret it as possessive apostrophe in English: "the element's attribute's value"
+        //more on objects in JS here: https://www.w3schools.com/js/js_objects.asp 
+
+        //look at the current body element's ID:
+        console.log(`Body ID: ${body.id}`)        
+        //"the body's id attribute value" --> this replaces with the value
+
+        //give the body HTML element and ID called "corpse"
+        body.id = "corpse"
+        console.log(`Body ID: ${body.id}`)    
+        //some attributes themselves have attributes or properties, like style
+        //to access the style attribute's properties, we simply continue our dot syntax
+        body.style.backgroundColor = "rgb(100, 100, 100)"
+        //NOTE: CSS property names in CSS use - but in JS use camelCase: fontSize, fontFamily, backgroundColor, marginTop, boxShadow, etc
+
+        //THE innerHTML ATTRIBUTE--------------------------------------------------------------------------------------------------------
+        //.innerHTML --> this is the content between the open and close tags
+        //only available when element has both <> and </>
+        //elements WITHOUT: img, input, hr, br, meta
+        body.innerHTML += `<h1>Hello World!</h1>`
+        //the above is shorthand for: body.innerHTML = body.innerHTML + `<h1>Hello World!</h1>`
+        //                similar to: count = count + 1 --> count += 1
+        console.log(body)
+        //line 148 ADDS the string content to the page
+
+
+        //select the h2 with an ID of "hello" and store to the name 'hello'
+        //when selecting an element by its ID as opposed to its TAG NAME, we use #ID
+        var hello = document.querySelector(`#hello`) //using the ID instead of tag name
+        //this can also be accomplished with the .getElementById(): document.getElementById(`hello`)
+    
+        //make the hello say goodbye
+        hello.innerHTML = `<i>Goodbye</i>`
+        //line 161 REPLACES the innerHTML (interior element content) with the string content to the page
+
+
+        //EVENT HANDLING with JS!------------------------------------------------------------------------------
+        //since we are using JS with HTML page content, we are building websites for a user to view and interact with. We cannot foresee what actions a user will do, or in which order, so we must attach "event listeners" to elements to act as our function calls!
+
+        //types of events: click, onload, refresh, etc
+        //more on events here: https://www.w3schools.com/js/js_events.asp 
+
+        //.addEventListener takes 2 arguments: the event type, and what will happen when the event takes place (this is usually the name of a function)
+
+        //add an event listener to the #enter-button element WITHOUT storing the element
+        document.querySelector(`#enter-button`).addEventListener(`click`, formConfirm)
+        //we only state the function name WITHOUT () because the function is not being called on line 177, it will be called when the click event occurs on the #enter-button
+
+        //GLOBAL SCOPE: name is recognizable *everywhere* after declaration, which means value is accessible *everywhere*; must be declared OUTSIDE OF A FUNCTION
+        //more on the concept of scope: https://www.w3schools.com/js/js_scope.asp 
+
+        //below names are GLOBAL
+        var first = document.getElementById(`first`)
+        var last = document.getElementById(`last`)
+        var age = document.getElementById(`age`)
+
+        //store the #info element so you can write data to it in the function easily
+        var info = document.getElementById(`info`)
+
+        //testing global vars --> show #first's id
+        console.log(`#first id: ${first.id}`)
+
+
+        //FUNCTIONS in JS----------------------------------------------------------------------------------------
+        //the below function will run when the event it is attached to occurs!
+        //more on JS functions here: https://www.w3schools.com/js/js_functions.asp 
+        function formConfirm(event)
+        {
+            //reset the info.innerHTML every time the button is clicked 
+            info.innerHTML = ``
+            //testing global vars --> show #first's id
+            console.log(`#first id: ${first.id}`)
+
+            //LOCAL SCOPE: name is only recognizable INSIDE of the function in which it is declared; the main way to access values that are locally scoped is through function returns :[ (passing by value)
+            //more on the concept of scope: https://www.w3schools.com/js/js_scope.asp 
+
+            //testing local vars --> show #first's value
+            var fvalue = first.value    //local declaration
+            console.log(`#first value: ${fvalue}`)
+
+            var lvalue = last.value 
+            var avalue = Number(age.value)
+
+            //create a full name using fvalue and lvalue 
+            var full = fvalue + ` ` + lvalue
+
+            //write the full name to the #info element by adding it to its innerHTML
+            info.innerHTML += `<p><b>Name:</b>${full}</p>`
+            info.innerHTML += `<p><b>Age:</b>${avalue} years</p>`
+
+
+            //CONDITIONS in JS----------------------------------------------------------------------------------
+            //conditions work similarly to other languages, we just need to hold the conditional statement inside of ()
+            //more on conditions in JS here: https://www.w3schools.com/js/js_comparisons.asp 
+            var activities = ``
+            if (avalue >= 21)
+            {
+                activities += `Drink! `
+            }
+            if (avalue >= 18)
+            {
+                activities += `Vote! `
+            }
+            if (avalue >= 16)
+            {
+                activities += `Drive! `
+            }
+            else
+            {
+                activities = `Sorry, you're TOO YOUNG FOR FUNS!`
+            }
+
+            info.innerHTML += `<br>`
+            info.innerHTML += `<p>Based on your age, you are old enough to:<br>${activities} </p>`
+
+        }//formConfirm() CLOSE
+
+        //testing local vars --> show #first's value
+        //console.log(`#first value: ${fvalue}`) //THIS DOESNT WORK BECAUSE 'fvalue' DOESNT EXIST OUTSIDE OF THE formConfirm() FUNCTION SINCE *THAT* IS WHERE IT WAS DECLARED!
+
+
+        //EVENTS on NON-BUTTON ELEMENTS-------------------------------------------------------------------------
+        //buttons aren't the only things that can be clicked! check out the below code, which modifies what the #me "Click" looks like based on the number of times (count) it has been clicked 8D
+        document.querySelector(`#me`).addEventListener(`click`, clickMe)
+        var count = 0
+
+        function clickMe(e)
+        {
+            count++
+            if (count % 2 == 0)
+            {
+                document.querySelector(`#me`).style.color = "magenta"
+                document.querySelector(`#me`).style.fontSize = "64px"
+                document.querySelector(`#me`).innerHTML = `<h2>Ouch!</h2>`
+            }
+            else
+            {
+                document.querySelector(`#me`).style.color = "white"
+                document.querySelector(`#me`).style.fontSize = "12px"
+                document.querySelector(`#me`).innerHTML = `<p>Click Me</p>`
+            }
+        }//clickMe()
+
+	</script>
+	
+</body>
+</html>
